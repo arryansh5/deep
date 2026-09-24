@@ -1,0 +1,51 @@
+{
+  "dataset_name": "Dataset-3 (Olfactory Stimulation EEG Dataset)",
+  "paper_reference": "A Lightweight Dual-Branch Multi-Level Attentive Attributes With Constraint Fusion Network for EEG-Based Alzheimer's Detection (LDANet)",
+  "parameters": {
+    "sampling_frequency_hz": 200,
+    "channels_count": 4,
+    "channels_list": [
+      "Fp1",
+      "Fz",
+      "Cz",
+      "Pz"
+    ],
+    "samples_per_trial": 600,
+    "trial_duration_sec": 3.0,
+    "time_window_description": "1.0s pre-stimulus baseline (-1.0s to 0.0s) + 2.0s post-stimulus (0.0s to 2.0s)",
+    "normalization_strategy": "Per-trial channel-wise Z-score ((x - mu) / sigma)"
+  },
+  "subject_statistics": {
+    "total_subjects": 35,
+    "subjects_per_class": {
+      "CN": 15,
+      "MCI": 7,
+      "AD": 13
+    },
+    "cv_strategy": "10-Fold Subject-Stratified Cross-Validation (Zero Subject Leakage)"
+  },
+  "trial_statistics": {
+    "total_trials": 3877,
+    "trials_per_class": {
+      "CN": 1677,
+      "MCI": 848,
+      "AD": 1352
+    },
+    "annotated_noisy_trials": 595,
+    "trial_tensor_shape": [
+      4,
+      600
+    ],
+    "model_input_tensor_shape": [
+      4,
+      600,
+      1
+    ]
+  },
+  "integrity": {
+    "nan_count": 0,
+    "inf_count": 0,
+    "mean": -1.656282444528756e-09,
+    "std": 1.0
+  }
+}
