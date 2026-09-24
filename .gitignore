@@ -3,6 +3,7 @@ dataset/
 dataset3/
 dataset.zip
 dataset2_processed.zip
+dataset3_processed.zip
 data/
 
 # Python cache & environments

@@ -1,7 +1,7 @@
-# EEG Alzheimer's Detection - Preprocessing Pipeline (Dataset-2)
+# EEG Alzheimer's Detection - Preprocessing Pipeline (LDANet Replication)
 
-Implementation of the preprocessing stage for **Dataset-2** from the paper:
-> **"A Lightweight Dual-Branch Multi-Level Attentive Attributes With Constraint Fusion Network for EEG-Based Alzheimer's Detection"**
+Replication of the preprocessing pipelines for **Dataset-2** and **Dataset-3** from the research paper:
+> **"A Lightweight Dual-Branch Multi-Level Attentive Attributes With Constraint Fusion Network for EEG-Based Alzheimer's Detection"** (IEEE T-ASE 2026)
 
 ---
 
@@ -11,28 +11,33 @@ Implementation of the preprocessing stage for **Dataset-2** from the paper:
 deep_learning_research/
 │
 ├── data/
-│   └── dataset2_processed/          # Standardized preprocessed tensors grouped per subject
-│       ├── AD/                      # 57 AD subjects (.npz files)
+│   ├── dataset2_processed/          # Standardized Dataset-2 tensors per subject (166 subjects)
+│   │   ├── AD/                      # 57 AD subjects (.npz files)
+│   │   ├── MCI/                     # 7 MCI subjects (.npz files)
+│   │   └── CONTROL/                 # 102 CONTROL subjects (.npz files)
+│   └── dataset3_processed/          # Standardized Dataset-3 tensors (35 subjects, 3,877 trials)
+│       ├── AD/                      # 13 AD subjects (.npz files)
 │       ├── MCI/                     # 7 MCI subjects (.npz files)
-│       └── CONTROL/                 # 102 CONTROL subjects (.npz files)
-│
-├── dataset/                         # Original raw dataset (UNMODIFIED)
-│   ├── AD/
-│   ├── CONTROL/
-│   ├── MCI/
-│   └── readme.txt
+│       ├── CN/                      # 15 CN subjects (.npz files)
+│       ├── X_normed.npy             # Master normalized tensor (3877, 4, 600)
+│       ├── X_raw.npy                # Master unnormalized tensor (3877, 4, 600)
+│       └── y.npy                    # Master labels (3877,)
 │
 ├── scripts/
-│   ├── preprocess_dataset2.py       # Full preprocessing execution pipeline
-│   └── validate_dataset2.py         # Rigorous data integrity & shape validation script
+│   ├── preprocess_dataset2.py       # Dataset-2 preprocessing pipeline
+│   ├── validate_dataset2.py         # Dataset-2 integrity & shape validation
+│   ├── preprocess_dataset3.py       # Dataset-3 preprocessing pipeline
+│   └── validate_dataset3.py         # Dataset-3 integrity & 10-fold CV leakage validation
 │
 ├── reports/
-│   ├── dataset2_manifest.csv        # Traceable window-level manifest (25,014 records)
-│   ├── dataset2_preprocessing_report.json # Comprehensive JSON summary report
-│   └── plots/                       # Diagnostic visual verification figures
-│       ├── 01_raw_vs_normalized_eeg.png
-│       ├── 02_sliding_window_segmentation.png
-│       └── 03_multichannel_19_channels.png
+│   ├── dataset2_manifest.csv        # Dataset-2 window-level manifest (25,014 records)
+│   ├── dataset2_preprocessing_report.json
+│   ├── dataset3_manifest.csv        # Dataset-3 trial-level manifest (3,877 records)
+│   ├── dataset3_subject_splits.csv  # Dataset-3 subject-stratified 10-fold CV partitions
+│   ├── dataset3_preprocessing_report.json
+│   ├── dataset3_preprocessing_report.md
+│   ├── plots/                       # Dataset-2 diagnostic figures
+│   └── dataset3_plots/              # Dataset-3 diagnostic figures
 │
 ├── A_Lightweight_Dual-Branch_...pdf # Reference research paper
 └── README.md
@@ -40,38 +45,40 @@ deep_learning_research/
 
 ---
 
-## 2. Preprocessing Specifications
+## 2. Dataset-2 Specifications (Continuous Scalp EEG)
 
-- **Channels ($e$):** 19 common standard 10–20 channels (reference electrodes excluded).
+- **Channels:** 19 common standard 10–20 channels (reference electrodes excluded).
 - **Sampling Frequency ($f_s$):** Standardized to **256 Hz** (anti-aliased polyphase resampling for 128 Hz recordings).
-- **Normalization:** Channel-wise Z-Score standardization ($\mu = 0, \sigma = 1$).
-- **Window Length ($\Delta t_w$):** 4.0 seconds ($L_w = 4 \times 256 = 1024$ samples).
-- **Window Overlap ($\Delta t_o$):** 3.0 seconds (75% overlap, 768 samples).
-- **Window Stride ($L_s$):** 1.0 second ($256$ samples).
-- **Sample Tensor Output Shape:** `(19, 1024)` (or `(19, 1024, 1)` with model channel dimension).
+- **Normalization:** Channel-wise Z-score standardization ($\mu = 0, \sigma = 1$).
+- **Window Length:** 4.0 seconds ($1024$ samples).
+- **Window Overlap:** 3.0 seconds (75% overlap, $768$ samples, stride $256$).
+- **Sample Tensor Output Shape:** `(19, 1024)`
+- **Total Windows Generated:** **25,014** (AD: 14,911, CONTROL: 7,491, MCI: 2,612 across 166 usable subjects).
 
 ---
 
-## 3. Dataset-2 Summary
+## 3. Dataset-3 Specifications (Olfactory Event-Related EEG)
 
-- **Total Usable Subjects:** 166 (CONTROL: 102, MCI: 7, AD: 57). Note: folders `AD33` and `AD44` are empty in the raw distribution.
-- **Total Processed Files:** 464 `.mat` files.
-- **Total Windows Generated:** **25,014**
-  - **AD:** 14,911 windows (59.61%)
-  - **CONTROL:** 7,491 windows (29.95%)
-  - **MCI:** 2,612 windows (10.44%)
-- **Data Leakage Isolation:** All windows retain their `subject_id` and `class_label` metadata for subject-stratified cross-validation.
+- **Cohort:** 35 subjects (15 CN / Normal, 7 MCI, 13 AD).
+- **Channels:** 4 channels (`Fp1`, `Fz`, `Cz`, `Pz`).
+- **Sampling Frequency ($f_s$):** **200 Hz**.
+- **Trial Duration:** 3.0 seconds (**600 samples** spanning -1.0s pre-stimulus baseline to +2.0s post-stimulus).
+- **Trial Tensor Output Shape:** `(4, 600)` (or `(4, 600, 1)` for 2D convolutions).
+- **Total Trials Generated:** **3,877** (CN: 1,677, MCI: 848, AD: 1,352).
+- **Cross-Validation:** 10-Fold Subject-Stratified partitioning with **zero subject leakage**.
 
 ---
 
 ## 4. How to Run
 
-### Execute Preprocessing:
+### Preprocess Dataset-2:
 ```bash
 python scripts/preprocess_dataset2.py
+python scripts/validate_dataset2.py
 ```
 
-### Validate Integrity:
+### Preprocess Dataset-3:
 ```bash
-python scripts/validate_dataset2.py
+python scripts/preprocess_dataset3.py
+python scripts/validate_dataset3.py
 ```
