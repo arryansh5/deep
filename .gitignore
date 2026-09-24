@@ -1,0 +1,20 @@
+# Raw and preprocessed datasets (>100MB / binary archives)
+dataset/
+dataset3/
+dataset.zip
+data/
+
+# Python cache & environments
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+venv/
+
+# System / IDE caches
+.system_generated/
+.gemini/
+.agents/
+.vscode/
+.idea/

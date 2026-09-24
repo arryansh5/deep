@@ -1,0 +1,111 @@
+{
+  "dataset_name": "Dataset-2 (Czech Hospital Dataset)",
+  "paper_reference": "A Lightweight Dual-Branch Multi-Level Attentive Attributes With Constraint Fusion Network for EEG-Based Alzheimer's Detection",
+  "parameters": {
+    "target_sampling_frequency_hz": 256,
+    "window_duration_seconds": 4.0,
+    "window_overlap_seconds": 3.0,
+    "window_overlap_percentage": "75%",
+    "stride_seconds": 1.0,
+    "samples_per_window": 1024,
+    "samples_per_stride": 256,
+    "channels_count": 19,
+    "normalization": "Channel-wise Z-score ((x - mu) / sigma)"
+  },
+  "subject_statistics": {
+    "total_subject_folders": 168,
+    "usable_subjects": 166,
+    "unusable_empty_subjects": [
+      "AD33",
+      "AD44"
+    ],
+    "subjects_per_class": {
+      "CONTROL": 102,
+      "MCI": 7,
+      "AD": 57
+    }
+  },
+  "file_statistics": {
+    "total_raw_mat_files": 471,
+    "successfully_processed_files": 464,
+    "failed_or_skipped_files": 9,
+    "failed_files_details": [
+      {
+        "subject_id": "AD1",
+        "class": "AD",
+        "file": "3.mat",
+        "reason": "Insufficient channels in export: (6776, 18)"
+      },
+      {
+        "subject_id": "AD17",
+        "class": "AD",
+        "file": "2.mat",
+        "reason": "Insufficient channels in export: (21680, 17)"
+      },
+      {
+        "subject_id": "AD21",
+        "class": "AD",
+        "file": "5.mat",
+        "reason": "Insufficient channels in export: (7006, 18)"
+      },
+      {
+        "subject_id": "AD33",
+        "class": "AD",
+        "file": null,
+        "reason": "Empty directory (0 .mat files)"
+      },
+      {
+        "subject_id": "AD35",
+        "class": "AD",
+        "file": "1.mat",
+        "reason": "Insufficient channels in export: (5334, 18)"
+      },
+      {
+        "subject_id": "AD35",
+        "class": "AD",
+        "file": "2.mat",
+        "reason": "Insufficient channels in export: (7784, 18)"
+      },
+      {
+        "subject_id": "AD35",
+        "class": "AD",
+        "file": "3.mat",
+        "reason": "Insufficient channels in export: (9976, 18)"
+      },
+      {
+        "subject_id": "AD35",
+        "class": "AD",
+        "file": "6.mat",
+        "reason": "Insufficient channels in export: (7670, 18)"
+      },
+      {
+        "subject_id": "AD44",
+        "class": "AD",
+        "file": null,
+        "reason": "Empty directory (0 .mat files)"
+      }
+    ]
+  },
+  "window_statistics": {
+    "total_windows_generated": 25014,
+    "windows_per_class": {
+      "CONTROL": 7491,
+      "MCI": 2612,
+      "AD": 14911
+    },
+    "window_tensor_shape": [
+      19,
+      1024
+    ],
+    "expanded_model_input_shape": [
+      19,
+      1024,
+      1
+    ]
+  },
+  "data_integrity": {
+    "nan_count": 0,
+    "inf_count": 0,
+    "all_window_shapes_uniform": true
+  }
+}
