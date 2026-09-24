@@ -1,7 +1,8 @@
-# Raw and preprocessed datasets (>100MB / binary archives)
+# Raw and preprocessed archives (>100MB / binary archives)
 dataset/
 dataset3/
 dataset.zip
+dataset2_processed.zip
 data/
 
 # Python cache & environments
